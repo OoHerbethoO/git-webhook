@@ -3,7 +3,7 @@ const repo = "~/your_repo_path_here/";
 
 const http = require('http');
 const crypto = require('crypto');
-const exec = require('child_process').exec;
+const { spawn } = require('node:child_process');
 
 http.createServer(function (req, res) {
     req.on('data', function(chunk) {
