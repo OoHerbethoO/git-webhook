@@ -10,7 +10,18 @@ http.createServer(function (req, res) {
         let sig = "sha1=" + crypto.createHmac('sha1', secret).update(chunk.toString()).digest('hex');
 
         if (req.headers['x-hub-signature'] == sig) {
-            exec('cd ' + repo + ' && git pull');
+            const child = spawn('git pull', {
+                shell: true,
+                cwd: repo
+            });
+
+            child.stdout.on('data', (data) => {
+                console.log(`${data}`);
+            });
+
+            child.stderr.on('data', (data) => {
+                console.error(`stderr filho:\n${data}`);
+            });
         }
     });
 
